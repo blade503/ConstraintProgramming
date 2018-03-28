@@ -23,7 +23,7 @@ public class timeTableChoco {
         //Range is 0 to N;
         IntVar[] vars = model.intVarArray("Q", n, 0, n, false);
         model.post(
-                
+
         );
         Solver solver = model.getSolver();
         Solution res = solver.findSolution();
