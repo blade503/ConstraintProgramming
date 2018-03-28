@@ -86,8 +86,4 @@ public class ChocoTest {
             res = solver.findSolution();
         } while (res != null);
     }
-
-    static void solveVendingMachine() {
-        //TODO
-    }
 }
