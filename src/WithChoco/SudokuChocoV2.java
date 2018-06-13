@@ -14,10 +14,36 @@ public class SudokuChocoV2 {
 
     public static int sum = 45;
 
+
+
     public static void main(String[] args)
     {
+
+        int[][] grid1 = new int[][]{
+                {0, 0, 0, 2, 0, 0, 0, 3, 0},
+                {0, 6, 0, 0, 8, 0, 9, 0, 4},
+                {0, 0, 8, 4, 0, 7, 0, 0, 0},
+                {1, 8, 0, 0, 0, 0, 0, 0, 3},
+                {0, 0, 6, 0, 1, 0, 2, 0, 0},
+                {2, 0, 0, 0, 0, 0, 0, 9, 5},
+                {0, 0, 0, 1, 0, 8, 4, 0, 0},
+                {4, 0, 7, 0, 3, 0, 0, 5, 0},
+                {0, 1, 0, 0, 0, 4, 0, 0, 0}
+        };
+
+        int[][] grid2 = new int[][]{
+                {0, 0, 9, 0, 0, 0, 0, 4, 0},
+                {7, 5, 0, 0, 0, 0, 0, 9, 0},
+                {4, 3, 0, 0, 9, 1, 0, 0, 0},
+                {0, 0, 2, 5, 0, 0, 1, 8, 0},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0},
+                {0, 7, 5, 0, 0, 3, 6, 0, 0},
+                {0, 0, 0, 2, 6, 0, 0, 7, 5},
+                {0, 6, 0, 0, 0, 0, 0, 1, 3},
+                {0, 8, 0, 0, 0, 0, 9, 0, 0}
+        };
         //solveSudokuV1(); //Ne fonctionne pas du tout
-        solveSudokuV2();
+        solveSudokuV2(grid2);
     }
 
     public static void solveSudokuV1(){
@@ -56,45 +82,29 @@ public class SudokuChocoV2 {
         }
     }
 
-    public static void solveSudokuV2()
+    public static void solveSudokuV2(int[][] grid)
     {
-        int[][] grid1 = new int[][]{
-                {0, 0, 0, 2, 0, 0, 0, 3, 0},
-                {0, 6, 0, 0, 8, 0, 9, 0, 4},
-                {0, 0, 8, 4, 0, 7, 0, 0, 0},
-                {1, 8, 0, 0, 0, 0, 0, 0, 3},
-                {0, 0, 6, 0, 1, 0, 2, 0, 0},
-                {2, 0, 0, 0, 0, 0, 0, 9, 5},
-                {0, 0, 0, 1, 0, 8, 4, 0, 0},
-                {4, 0, 7, 0, 3, 0, 0, 5, 0},
-                {0, 1, 0, 0, 0, 4, 0, 0, 0}
-        };
-
-        int[][] grid2 = new int[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {2, 0, 0, 0, 0, 0, 0, 9, 5},
-                {0, 0, 0, 1, 0, 8, 4, 0, 0},
-                {4, 0, 7, 0, 3, 0, 0, 5, 0},
-                {0, 1, 0, 0, 0, 4, 0, 0, 0}
-        };
-
         int n = 9; // la taille de la grille
         Model model = new Model(); // une nouvelle instance de la classe Problem
+
+        long start = System.currentTimeMillis();
 
         // déclaration des lignes (rows) et colonnes (cols)
         IntVar[][] rows = new IntVar[n][]; // les n lignes
         IntVar[][] cols = new IntVar[n][]; // les n colonnes
 
+
+        int[] coeffs = new int[n];
+        for (int i = 0;i<n;i++) {
+            coeffs[i] = 1;
+        }
+
         // déclaration des variables
         for (int i = 0; i < n; i++) {
             rows[i] = new IntVar[n];
             for (int j = 0; j < n; j++) {
-                if (grid1[i][j] > 0) {
-                    rows[i][j] = model.intVar(grid1[i][j]);
+                if (grid[i][j] > 0) {
+                    rows[i][j] = model.intVar(grid[i][j]);
                 } else {
                     rows[i][j] = model.intVar("(" + i + "," + j + ")", 1, n);
                 }
@@ -141,6 +151,10 @@ public class SudokuChocoV2 {
         Solver solver = model.getSolver();
 
         List<Solution> solutions = solver.findAllSolutions();
+
+        long end = System.currentTimeMillis();
+        System.out.println(solver.getSolutionCount());
+        System.out.println((end - start) + " ms");
 
         StringBuilder st = new StringBuilder("Sudoku -- solver\n");
         st.append("\t");
