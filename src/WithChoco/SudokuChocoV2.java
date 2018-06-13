@@ -47,7 +47,7 @@ public class SudokuChocoV2 {
         solveSudokuV2(grid2);
     }
 
-    public static void solveSudokuV1(){
+    /*public static void solveSudokuV1(){
         Model model = new Model("sudoku");
 
         //Generates the square
@@ -81,7 +81,7 @@ public class SudokuChocoV2 {
             System.out.println(solutions.get(i));
             System.out.println("------");
         }
-    }
+    }*/
 
     public static void solveSudokuV2(int[][] grid)
     {
@@ -176,7 +176,7 @@ public class SudokuChocoV2 {
         System.out.println(st.toString());
     }
 
-    private static void displaySquare(int n, IntVar[][] t) {
+    /*private static void displaySquare(int n, IntVar[][] t) {
         int n2 = n * n;
         int width = String.valueOf(n2).length();
         System.out.println("--- SOL --- " + n2 + "x" + n2);
@@ -201,5 +201,5 @@ public class SudokuChocoV2 {
             System.out.println(" |");
         }
         System.out.println(" " + s);
-    }
+    }*/
 }
