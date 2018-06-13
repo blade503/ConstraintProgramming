@@ -147,28 +147,31 @@ public class MagicSquareChoco {
         Solver solver = model.getSolver();
 
         solver.setSearch(
-                    // LEVEL 8
-                Search.inputOrderLBSearch(vars)
+                    //2
+                //Search.inputOrderLBSearch(vars)
+                    //2'
                 //Search.domOverWDegSearch(vars)
 
-                    // LEVEL 7
+                    //3
                 //Search.intVarSearch(new Smallest(), new IntDomainMiddle(true), vars)
+
+                    //4
                 //Search.intVarSearch(new InputOrder<>(model), new IntDomainMiddle(true), vars)
 
-                    //LEVEL 7-9
+                    //5
                 //Search.intVarSearch(new InputOrder<>(model), new IntDomainMiddle(true), diagonalA),
                 //Search.intVarSearch(new InputOrder<>(model), new IntDomainRandom(1), vars)
 
-                    //LEVEL 12
+                    //6
                 //Search.intVarSearch(new InputOrder<>(model), new IntDomainRandom(1), diagonalA),
                 //Search.intVarSearch(new InputOrder<>(model), new IntDomainRandom(1), vars)
 
-                    // LEVEL 12 Dep.seed
+                    //7
                 //Search.intVarSearch(new FirstFail(model), new IntDomainRandom(n), vars)
 
-                    //LEVEL 13 TO 16
-                //Search.intVarSearch(new FirstFail(model), new IntDomainMedian(), diagonalA),
-                //Search.intVarSearch(new FirstFail(model), new IntDomainMedian(10), vars)
+                    //8
+                Search.intVarSearch(new FirstFail(model), new IntDomainMedian(), diagonalA),
+                Search.intVarSearch(new FirstFail(model), new IntDomainRandom(1000000), vars)
 
         );
 
