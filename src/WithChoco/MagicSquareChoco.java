@@ -18,7 +18,7 @@ public class MagicSquareChoco {
 
     public static void main(String[] args) {
         System.out.println("Magic Square");
-        solveMagicSquareV2(4);
+        solveMagicSquareV2(3);
     }
 
     static void solveMagicSquareV1(int n) {
@@ -177,10 +177,10 @@ public class MagicSquareChoco {
 
         //Affichage
         List<Solution> solutions = solver.findAllSolutions();
-        /*for (int i = 0; i < solutions.size(); i++) {
+        for (int i = 0; i < solutions.size(); i++) {
             System.out.println(solutions.get(i));
             System.out.println("------");
-        }*/
+        }
 
         long end = System.currentTimeMillis();
         System.out.println(solver.getSolutionCount());
