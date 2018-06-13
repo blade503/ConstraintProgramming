@@ -18,6 +18,7 @@ public class SudokuChocoV2 {
 
     public static void main(String[] args)
     {
+        //solveSudokuV1(); //Ne fonctionne pas du tout
 
         int[][] grid1 = new int[][]{
                 {0, 0, 0, 2, 0, 0, 0, 3, 0},
@@ -42,7 +43,7 @@ public class SudokuChocoV2 {
                 {0, 6, 0, 0, 0, 0, 0, 1, 3},
                 {0, 8, 0, 0, 0, 0, 9, 0, 0}
         };
-        //solveSudokuV1(); //Ne fonctionne pas du tout
+        //solveSudokuV2(grid1);
         solveSudokuV2(grid2);
     }
 
@@ -123,6 +124,9 @@ public class SudokuChocoV2 {
         for (int i = 0; i < n; i++) {
             model.post(model.allDifferent(cols[i]));
             model.post(model.allDifferent(rows[i]));
+            //Peut etre supprimé mais est censé aider à améliorer la vitesse de la résolution du probleme
+            model.scalar(cols[i], coeffs, "=", 45).post();
+            model.scalar(rows[i], coeffs, "=", 45).post();
         }
 
         // définition des blocs
@@ -153,19 +157,49 @@ public class SudokuChocoV2 {
         List<Solution> solutions = solver.findAllSolutions();
 
         long end = System.currentTimeMillis();
-        System.out.println(solver.getSolutionCount());
-        System.out.println((end - start) + " ms");
+        System.out.println("Solution count : "+ solver.getSolutionCount());
+        System.out.println("Solved in " + (end - start) + " ms");
 
+        displaySquareHomeMade(rows);
+    }
+
+    private static void displaySquareHomeMade(IntVar[][] t){
         StringBuilder st = new StringBuilder("Sudoku -- solver\n");
         st.append("\t");
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                st.append(rows[i][j].getValue()).append(" ");
+                st.append(t[i][j].getValue()).append(" ");
             }
             st.append("\n\t");
         }
 
         System.out.println(st.toString());
+    }
 
+    private static void displaySquare(int n, IntVar[][] t) {
+        int n2 = n * n;
+        int width = String.valueOf(n2).length();
+        System.out.println("--- SOL --- " + n2 + "x" + n2);
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            s.append("+");
+            for (int j = 0; j < n * 2 * width + 1; j++) {
+                s.append("-");
+            }
+        }
+        s.append("+");
+        for (int i = 0; i < n2; i++) {
+            if (i % n == 0) {
+                System.out.println(" " + s);
+            }
+            for (int j = 0; j < n2; j++) {
+                if (j % n == 0) {
+                    System.out.print(" |");
+                }
+                System.out.printf(" %" + width + "d", t[i][j].getValue());
+            }
+            System.out.println(" |");
+        }
+        System.out.println(" " + s);
     }
 }
